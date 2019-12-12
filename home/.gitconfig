@@ -1,0 +1,5 @@
+[user]
+	email = tobi.pleyer@gmail.com
+	name = Tobias Pleyer
+[core]
+	editor = nvim
