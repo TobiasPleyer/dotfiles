@@ -74,6 +74,16 @@ in
           sha256 = "13yn0arxcn8ngc91lvhcqs3nl17zcdmgsw522qvqgn732cpf0ddy";
         };
       };
+      matchit = vimUtils.buildVimPluginFrom2Nix {
+        pname = "matchit";
+        version = "2011-09-11";
+        src = fetchFromGitHub {
+          owner = "tmhedberg";
+          repo = "matchit";
+          rev = "060d9d8aa381d6a650b649d38c992b59db3ed1a3";
+          sha256 = "0ky5qbimdwprdmy9n93shyrs2a41vfgm9yj7v2q2db3zfsvpynld";
+        };
+      };
     };
 
     myNeovim = neovim.override {
@@ -85,17 +95,18 @@ in
               "bufexplorer"
               "coc-nvim"
               "ctrlp"
-              "vim-elm-syntax"
               "lushtags"
+              "matchit"
               "nerdtree"
               "syntastic"
               "tabular"
               "tagbar"
               "text-utils"
-              #"vim-hindent"
+              "vim-elm-syntax"
               "vim-hoogle"
               "vim-one"
               "vim-ormolu"
+              #"vim-hindent"
               #"vim-stylish-haskell"
             ];
           }
