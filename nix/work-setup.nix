@@ -37,7 +37,7 @@ in
       symbol
       tools
       wasy
-      wasy2-ps
+      #wasy2-ps
       wasysym
       xcolor
       xmpincl;
@@ -84,6 +84,16 @@ in
           sha256 = "0ky5qbimdwprdmy9n93shyrs2a41vfgm9yj7v2q2db3zfsvpynld";
         };
       };
+      neoterm = vimUtils.buildVimPluginFrom2Nix {
+        pname = "neoterm";
+        version = "2020-11-05";
+        src = fetchFromGitHub {
+          owner = "kassio";
+          repo = "neoterm";
+          rev = "78461935fcd6888c02e4368126a2cb645b80816e";
+          sha256 = "07szw3jd5vj4sxzmrdalk79pdba7cm0c7k3rvn5bw4lyjgzml7ll";
+        };
+      };
     };
 
     myNeovim = neovim.override {
@@ -98,6 +108,7 @@ in
               "lushtags"
               "matchit"
               "nerdtree"
+              "neoterm"
               "syntastic"
               "tabular"
               "tagbar"

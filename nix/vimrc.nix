@@ -100,7 +100,6 @@ let g:pss_permanent_args = '--exclude-pattern="moc_.*" --exclude-pattern="tags" 
 "let g:deoplete#enable_at_startup = 1
 "
 "let g:textid_db_file = '/home/tobias/.config/nvim/rplugin/python3/textids.db'
-nmap <Leader>t :MkTags<CR>
 
 map <Leader>n :NERDTreeToggle<CR>
 map <Leader>m :execute "/" . g:git_conflict_marker_regex<CR>
@@ -110,6 +109,8 @@ map <Leader>co :copen<CR>
 map <Leader>cc :cclose<CR>
 map <Leader>b :cn<CR>zz
 map <Leader>v :cp<CR>zz
+nmap <Leader>h :MkTags<CR>
+nmap <Leader>t :Ttoggle<CR>
 nmap <Leader>z :TagbarToggle<CR>
 
 " CoC Keybindings
