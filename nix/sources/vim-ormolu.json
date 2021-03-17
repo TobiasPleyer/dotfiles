@@ -1,0 +1,7 @@
+{
+    "owner": "sdiehl",
+    "repo": "vim-ormolu",
+    "rev": "edbeb0135692345b088182963e9b229fe2235ac0",
+    "sha256": "02qf3j33zavfblm4bd953lqlfb5ah5dfd337livndk6iyaihh4kr",
+    "fetchSubmodules": true
+}

@@ -1,7 +1,8 @@
 ''
 "set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = "~/.config/nvim/pack"
-let mapleader = ","
+let mapleader      = ' '
+let maplocalleader = ' '
 
 "Credit joshdick
 "Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
@@ -20,120 +21,136 @@ if (empty($TMUX))
   endif
 endif
 
-set tabstop=8
-set softtabstop=0
-set expandtab
-set shiftwidth=4
-set smarttab
 set clipboard=unnamed
 set history=1000
-set wrap!
 set number relativenumber
 set colorcolumn=80,120
 set background=dark " for the dark version
 set hidden
+set guicursor=
+set relativenumber
+set nohlsearch
+set hidden
+set noerrorbells
+set tabstop=4 softtabstop=4
+set shiftwidth=4
+set expandtab
+set smarttab
+set smartindent
+set number relativenumber
+set nowrap
+set noswapfile
+set nobackup
+set undodir=~/.vim/undodir
+set undofile
+set incsearch
+set scrolloff=8
+" set noshowmode
+set signcolumn=yes
+set isfname+=@-@
+" set ls=0
+
+" Give more space for displaying messages.
+set cmdheight=2
+set encoding=utf-8
+
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience.
+set updatetime=50
+
+if has('nvim')
+  " https://github.com/neovim/neovim/issues/2897#issuecomment-115464516
+  let g:terminal_color_0 = '#4e4e4e'
+  let g:terminal_color_1 = '#d68787'
+  let g:terminal_color_2 = '#5f865f'
+  let g:terminal_color_3 = '#d8af5f'
+  let g:terminal_color_4 = '#85add4'
+  let g:terminal_color_5 = '#d7afaf'
+  let g:terminal_color_6 = '#87afaf'
+  let g:terminal_color_7 = '#d0d0d0'
+  let g:terminal_color_8 = '#626262'
+  let g:terminal_color_9 = '#d75f87'
+  let g:terminal_color_10 = '#87af87'
+  let g:terminal_color_11 = '#ffd787'
+  let g:terminal_color_12 = '#add4fb'
+  let g:terminal_color_13 = '#ffafaf'
+  let g:terminal_color_14 = '#87d7d7'
+  let g:terminal_color_15 = '#e4e4e4'
+
+  set fillchars=vert:\|,fold:-
+  autocmd BufReadPost *
+    \ if line("'\"") >= 1 && line("'\"") <= line("$") |
+    \   exe "normal! g`\"" |
+    \ endif
+else
+  let g:terminal_ansi_colors = [
+    \ '#4e4e4e', '#d68787', '#5f865f', '#d8af5f',
+    \ '#85add4', '#d7afaf', '#87afaf', '#d0d0d0',
+    \ '#626262', '#d75f87', '#87af87', '#ffd787',
+    \ '#add4fb', '#ffafaf', '#87d7d7', '#e4e4e4']
+endif
+
+let g:NERDTreeHijackNetrw = 0
+let g:airline#extensions#coc#enabled = 0
 
 highlight ColorColumn ctermbg=red
+colorscheme gruvbox
+syntax on
+filetype plugin on
 
 "execute pathogen#infect('bundle/{}', '~/.config/nvim/bundle/{}')
 
 command! -nargs=0 MkTags :call system('hasktags -c -o tags .')
 
-filetype plugin on
-map <Leader>n :NERDTreeToggle<CR>
-
-let g:airline_theme='one'
-colorscheme one
-" colorscheme solarized8
-" set background=light " for the light version
-
-
+let g:airline_theme='gruvbox'
 let g:python3_host_prog = '/usr/bin/python3'
-
-map <Leader>s :SyntasticToggleMode<CR>
-
-" Syntastic settings
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_haskell_checkers = ["hlint"]
-
-"let g:hindent_on_save = 1
-"let g:hindent_indent_size = 4
-"let g:hindent_line_length = 120
-
 let g:git_conflict_marker_regex = "\\(^<<<<<<< \\@=\\)\\|\\(^=======$\\)\\|\\(^>>>>>>> \\@=\\)"
+let python_highlight_all=1
+
+map <leader>n :NERDTreeToggle<CR>
 
 vmap a= :Tabularize /=<CR>
 vmap a; :Tabularize /::<CR>
 vmap a- :Tabularize /-><CR>
 
-let python_highlight_all=1
-syntax on
-
-function! GetFuncs()
-    let g:funcList = []
-    %g/\v^\w+ (\w+::)?\w+\([^)]*\)$/call add(g:funcList, "./Src/OpcPlcErrorSource.cpp#" . line(".") . "#" . getline("."))
-    call setqflist([], ' ', {'title': 'Functions in ' . expand("%:t"), 'id' : 'myQF', 'lines' : g:funcList, 'efm':'%f#%l#%m'})
-endfunction
-
-nnoremap <silent> <Leader>f :call GetFuncs()<CR>
-
-let g:pss_permanent_args = '--exclude-pattern="moc_.*" --exclude-pattern="tags" --ignore-dir="dist" --ignore-dir="dist-newstyle"'
+map <leader>n :NERDTreeToggle<CR>
+map <leader>m :execute "/" . g:git_conflict_marker_regex<CR>
+map <leader>g :Pss<CR>
+map <leader>G :Pss!<CR>
+map <leader>co :copen<CR>
+map <leader>cc :cclose<CR>
+map <leader>cn :cn<CR>zz
+map <leader>cp :cp<CR>zz
+nmap <leader>h :MkTags<CR>
+nmap <leader>t :Ttoggle<CR>
+nmap <leader>z :TagbarToggle<CR>
 
 " Settings for the LanguageClient-neovim plugin
-"let g:LanguageClient_serverCommands = { 'haskell': ['hie-wrapper'] }
-"nnoremap <F5> :call LanguageClient_contextMenu()<CR>
-"map <Leader>lk :call LanguageClient#textDocument_hover()<CR>
-"map <Leader>lg :call LanguageClient#textDocument_definition()<CR>
-"map <Leader>lr :call LanguageClient#textDocument_rename()<CR>
-"map <Leader>lf :call LanguageClient#textDocument_formatting()<CR>
-"map <Leader>lb :call LanguageClient#textDocument_references()<CR>
-"map <Leader>la :call LanguageClient#textDocument_codeAction()<CR>
-"map <Leader>ls :call LanguageClient#textDocument_documentSymbol()<CR>
-
-"let g:deoplete#enable_at_startup = 1
-"
-"let g:textid_db_file = '/home/tobias/.config/nvim/rplugin/python3/textids.db'
-
-map <Leader>n :NERDTreeToggle<CR>
-map <Leader>m :execute "/" . g:git_conflict_marker_regex<CR>
-map <Leader>g :Pss<CR>
-map <Leader>G :Pss!<CR>
-map <Leader>co :copen<CR>
-map <Leader>cc :cclose<CR>
-map <Leader>b :cn<CR>zz
-map <Leader>v :cp<CR>zz
-nmap <Leader>h :MkTags<CR>
-nmap <Leader>t :Ttoggle<CR>
-nmap <Leader>z :TagbarToggle<CR>
+let g:LanguageClient_serverCommands = { 'haskell': ['hie-wrapper'] }
+nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+map <Leader>lk :call LanguageClient#textDocument_hover()<CR>
+map <Leader>lg :call LanguageClient#textDocument_definition()<CR>
+map <Leader>lr :call LanguageClient#textDocument_rename()<CR>
+map <Leader>lf :call LanguageClient#textDocument_formatting()<CR>
+map <Leader>lb :call LanguageClient#textDocument_references()<CR>
+map <Leader>la :call LanguageClient#textDocument_codeAction()<CR>
+map <Leader>ls :call LanguageClient#textDocument_documentSymbol()<CR>
 
 " CoC Keybindings
 nmap <leader>cr <Plug>(coc-rename)
 nmap <silent> <leader>cs <Plug>(coc-fix-current)
-nmap <silent> <leader>cS <Plug>(coc-codeaction)
-nmap <silent> <leader>ca <Plug>(coc-diagnostic-next)
-nmap <silent> <leader>cA <Plug>(coc-diagnostic-next-error)
+nmap <silent> <leader>ca <Plug>(coc-codeaction)
+nmap <silent> <leader>cn <Plug>(coc-diagnostic-next)
+nmap <silent> <leader>cN <Plug>(coc-diagnostic-next-error)
 nmap <silent> <leader>cd <Plug>(coc-definition)
-nmap <silent> <leader>cg :call CocAction('doHover')<CR>
-nmap <silent> <leader>cu <Plug>(coc-references)
-nmap <silent> <leader>cp :call CocActionAsync('format')<CR>
+nmap <silent> <leader>ch :call CocAction('doHover')<CR>
+nmap <silent> <leader>cr <Plug>(coc-references)
+nmap <silent> <leader>cf :call CocActionAsync('format')<CR>
+nmap <silent> <leader>cl :CocList diagnostics<CR>
 
-let g:tagbar_type_elm = {
-      \ 'kinds' : [
-      \ 'f:function:0:0',
-      \ 'm:modules:0:0',
-      \ 'i:imports:1:0',
-      \ 't:types:1:0',
-      \ 'a:type aliases:0:0',
-      \ 'c:type constructors:0:0',
-      \ 'p:ports:0:0',
-      \ 's:functions:0:0',
-      \ ]
-      \}
+" Telescope bindings
+nnoremap <leader>ff <cmd>Telescope find_files<CR>
+nnoremap <leader>fg <cmd>Telescope live_grep<CR>
+nnoremap <leader>fb <cmd>Telescope buffers<CR>
+nnoremap <leader>fh <cmd>Telescope help_tags<CR>
 ''
