@@ -1,19 +1,13 @@
 let
+  bootstrap_pkgs = import <nixpkgs> {};
   fetchFromGitHubJSONGen = pkgs: jsonPath:
     let jsonInfo = pkgs.lib.importJSON jsonPath;
     in pkgs.fetchFromGitHub {inherit (jsonInfo) owner repo rev sha256;};
-  neovim-overlay = self: super: {
-    neovim-unwrapped = super.neovim-unwrapped.overrideAttrs (old: {
-        src = fetchFromGitHubJSONGen super ./sources/neovim.json;
-        version = "nightly";
-        cmakeFlags = old.cmakeFlags ++ [
-            "-DTreeSitter_INCLUDE_DIR=${self.tree-sitter}/include"
-            "-DTreeSitter_LIBRARY=${self.tree-sitter}/lib/libtree-sitter.so.0.0"
-          ];
-      });
-    };
-  pkgs = import <nixpkgs> { overlays = [ neovim-overlay ]; };
-  fetchFromGitHubJSON = fetchFromGitHubJSONGen pkgs;
+  fetchFromGitHubJSON = fetchFromGitHubJSONGen bootstrap_pkgs;
+  pkgs = import <nixpkgs> { overlays = [
+           ((import ./overlays/neovim.nix) fetchFromGitHubJSON)
+           ((import ./overlays/alacritty.nix) fetchFromGitHubJSON)
+           ]; };
   ormolu = (import (fetchFromGitHubJSON ./sources/ormolu.json) {inherit pkgs; ormoluCompiler = "ghc865";}).ormolu;
 in
   with pkgs;
@@ -130,6 +124,7 @@ in
       paths = [
         alacritty
         fzf
+        nix-prefetch-github
         ripgrep
         ormolu
         #myHaskell
