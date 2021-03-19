@@ -14,7 +14,7 @@ let
     };
   pkgs = import <nixpkgs> { overlays = [ neovim-overlay ]; };
   fetchFromGitHubJSON = fetchFromGitHubJSONGen pkgs;
-  ormolu = (import (fetchFromGitHubJSON ./sources/ormolu.json) {inherit pkgs;}).ormolu;
+  ormolu = (import (fetchFromGitHubJSON ./sources/ormolu.json) {inherit pkgs; ormoluCompiler = "ghc865";}).ormolu;
 in
   with pkgs;
   rec {
