@@ -2,6 +2,8 @@ vim.g.loaded_matchparen = 1
 
 local opt = vim.opt
 
+opt.laststatus = 3
+
 -- Ignore compiled files
 opt.wildignore = "__pycache__"
 opt.wildignore = opt.wildignore + { "*.o", "*~", "*.pyc", "*pycache*" }
@@ -95,7 +97,7 @@ opt.joinspaces = false -- Two spaces and grade school, we're done
 -- set fillchars=eob:~
 opt.fillchars = { eob = "~" }
 
-vim.opt.diffopt = { "internal", "filler", "closeoff", "hiddenoff", "algorithm:minimal" }
+opt.diffopt = { "internal", "filler", "closeoff", "hiddenoff", "algorithm:minimal" }
 
 opt.history=1000
 opt.colorcolumn="80,120"
