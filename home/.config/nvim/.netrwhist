@@ -1,4 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =2
-let g:netrw_dirhist_1='/home/tobias/BBB/BBB_Building_U-Boot_Linux_from_scratch/gcc-linaro-arm-linux-gnueabihf-4.9-2014.09_linux/lib/gcc/arm-linux-gnueabihf'
-let g:netrw_dirhist_2='/home/tobias/BBB/BBB_Building_U-Boot_Linux_from_scratch/gcc-linaro-arm-linux-gnueabihf-4.9-2014.09_linux/lib/gcc/arm-linux-gnueabihf/4.9.2'
